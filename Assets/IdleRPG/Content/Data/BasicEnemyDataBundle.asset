@@ -19,4 +19,5 @@ MonoBehaviour:
     attackType: 0
     attackRange: 0
     movementSpeed: 0.5
-  enemyPrefab: {fileID: 0}
+  enemyPrefab: {fileID: 934134451553710227, guid: 02f4376087b7e3e46a77fc976719a8c5, type: 3}
+  enemyType: 1

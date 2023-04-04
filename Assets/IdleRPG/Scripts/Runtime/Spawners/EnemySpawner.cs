@@ -105,7 +105,6 @@ namespace IdleRPG.Scripts.Runtime.Spawners
             var instantiatedObject = Instantiate(_currentEnemyData.EnemyPrefab, Vector3.zero, Quaternion.identity);
             var enemyView = instantiatedObject.GetComponent<EnemyView>();
             enemyView.Inject(player, _currentEnemyData);
-            enemyView.ResetEnemy(GetSpawnPosition());
             enemyView.OnDeath += EnemyDeathResolver;
             return enemyView;
         }

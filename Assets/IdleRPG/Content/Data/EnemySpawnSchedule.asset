@@ -16,8 +16,8 @@ MonoBehaviour:
   - _enemyData: {fileID: 11400000, guid: f56c31320484732448793fb7a08318a1, type: 2}
     _spawnProbabilityWeight: 1
   - _enemyData: {fileID: 11400000, guid: 81937236d7062314e99c6e96cecb3b20, type: 2}
-    _spawnProbabilityWeight: 0.05
+    _spawnProbabilityWeight: 0.02
   defaultSpawnDelay: 5
   minimalSpawnDelay: 1
   spawnDelayDecrease: 0.5
-  loopLength: 10
+  loopLength: 20
