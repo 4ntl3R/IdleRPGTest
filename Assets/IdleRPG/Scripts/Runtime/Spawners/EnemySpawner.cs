@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace IdleRPG.Scripts.Runtime.Spawners
 {
+    //todo: split enemy spawner to pooling handler and spawner
     public class EnemySpawner : MonoBehaviour, ITargetProvider
     {
         private static readonly List<EnemyView> ZeroExceptions = new List<EnemyView>();
