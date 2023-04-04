@@ -1,5 +1,6 @@
 using System;
 using IdleRPG.Scripts.Data;
+using UnityEngine;
 
 namespace IdleRPG.Scripts.Runtime.Models
 {
@@ -14,8 +15,8 @@ namespace IdleRPG.Scripts.Runtime.Models
         private CharacterParametersData _parametersData;
         private float _currentDamage;
 
-        public float MovementSpeed => _parametersData.MovementSpeed;
-
+        public float AttackRange => _parametersData.AttackRange;
+        
         public float AttackSpeed => Second / _parametersData.AttackPerSecond;
 
         public float AttackDamage => _parametersData.AttackDamage;
@@ -40,7 +41,8 @@ namespace IdleRPG.Scripts.Runtime.Models
 
         private void ChangeHealth(float changeValue = 0)
         {
-            _currentDamage += changeValue;
+            _currentDamage -= changeValue;
+            _currentDamage = Mathf.Max(0, _currentDamage);
             OnHealthChange?.Invoke(_parametersData.MaxHealth - _currentDamage, _parametersData.MaxHealth, changeValue);
         }
 
