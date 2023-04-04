@@ -15,6 +15,7 @@ namespace IdleRPG.Scripts.Runtime.Controllers
         {
             _movingModel = movingModel;
             _movable = movable;
+            _iterator = iterator;
             
             SubscribeEvents();
         }
