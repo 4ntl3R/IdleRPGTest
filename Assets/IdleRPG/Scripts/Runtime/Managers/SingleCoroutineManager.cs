@@ -33,6 +33,10 @@ namespace IdleRPG.Scripts.Runtime.Managers
         public void StopIterating()
         {
             _isIterating = false;
+            if (_currentRoutine is null)
+            {
+                return;
+            }
             _target.StopCoroutine(_currentRoutine);
         }
 
