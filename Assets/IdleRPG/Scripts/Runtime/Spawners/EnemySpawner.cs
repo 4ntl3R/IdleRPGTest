@@ -56,7 +56,7 @@ namespace IdleRPG.Scripts.Runtime.Spawners
 
         private void Spawn(float interval)
         {
-            _currentEnemyData = spawnEnemyDataBundle.SpawnEntries[_spawnIndex].GetRandomEnemyData();
+            _currentEnemyData = spawnEnemyDataBundle.SpawnEntries.GetRandomEnemyData();
 
             if (!_enemyPools.ContainsKey(_currentEnemyData.EnemyType))
             {

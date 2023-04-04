@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IdleRPG.Scripts.Data
@@ -6,7 +7,7 @@ namespace IdleRPG.Scripts.Data
     public class SpawnEnemyDataBundle : ScriptableObject
     {
         [SerializeField] 
-        private SpawnEntryData[][] spawnEntries;
+        private SpawnEntryData[] spawnEntries;
 
         [SerializeField]
         private float defaultSpawnDelay;
@@ -17,12 +18,17 @@ namespace IdleRPG.Scripts.Data
         [SerializeField] 
         private float spawnDelayDecrease;
 
-        public SpawnEntryData[][] SpawnEntries => spawnEntries;
+        [SerializeField] 
+        private int loopLength = 10;
+
+        public SpawnEntryData[] SpawnEntries => spawnEntries;
         
         public float DefaultSpawnDelay => defaultSpawnDelay;
 
         public float MinimalSpawnDelay => minimalSpawnDelay;
 
         public float SpawnDelayDecrease => spawnDelayDecrease;
+
+        public int LoopLength => loopLength;
     }
 }
