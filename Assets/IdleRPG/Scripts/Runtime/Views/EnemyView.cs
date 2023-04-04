@@ -89,7 +89,7 @@ namespace IdleRPG.Scripts.Runtime.Views
 
         public void LookAt(Vector3 target)
         {
-            visualization.LookAt(target);
+            visualization.up = target - transform.position;
         }
 
         public void ResolveDeath()
