@@ -65,7 +65,7 @@ namespace IdleRPG.Scripts.Runtime.Views
             _movingController = new MovingController(_movingModel, this, _movingIterator);
             _enemyAttackController = new EnemyAttackController(_movingModel, _characterParametersModel, _damageIterator, _targetProvider);
             _healthController = new HealthController(healthBar, this, _characterParametersModel, 
-                new List<IDeathReceiver>{_movingController, _enemyAttackController});
+                new List<IDeathReceiver>{_movingController, _enemyAttackController, this});
 
             _disposables = new List<IDisposable>
                 {_movingController, _enemyAttackController, _healthController};
