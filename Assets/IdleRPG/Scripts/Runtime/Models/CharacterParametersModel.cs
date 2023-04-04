@@ -13,6 +13,8 @@ namespace IdleRPG.Scripts.Runtime.Models
         private CharacterParametersData _parametersData;
         private float _currentDamage;
 
+        public float MovementSpeed => _parametersData.MovementSpeed;
+
         public CharacterParametersModel(CharacterParametersData parametersData)
         {
             _parametersData = parametersData;
