@@ -6,6 +6,7 @@ namespace IdleRPG.Scripts.Runtime.Models
     public class CharacterParametersModel
     {
         public const float FloatPrecision = 0.0001f;
+        private const float Second = 1f;
         
         public event Action<float, float, float> OnHealthChange;
         public event Action OnFullDamage;
@@ -14,6 +15,10 @@ namespace IdleRPG.Scripts.Runtime.Models
         private float _currentDamage;
 
         public float MovementSpeed => _parametersData.MovementSpeed;
+
+        public float AttackSpeed => Second / _parametersData.AttackPerSecond;
+
+        public float AttackDamage => _parametersData.AttackDamage;
 
         public CharacterParametersModel(CharacterParametersData parametersData)
         {
