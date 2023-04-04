@@ -24,5 +24,17 @@ namespace IdleRPG.Scripts.Data
 
         [SerializeField] 
         private float movementSpeed;
+
+        public float MaxHealth => maxHealth;
+        
+        public float AttackDamage => attackDamage;
+        
+        public float AttackPerSecond => attackPerSecond;
+
+        public AttackType AttackType => attackType;
+
+        public float AttackRange => attackRange;
+
+        public float MovementSpeed => movementSpeed;
     }
 }
