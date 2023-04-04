@@ -14,6 +14,8 @@ namespace IdleRPG.Scripts.Runtime.Spawners
 {
     public class EnemySpawner : MonoBehaviour, ITargetProvider
     {
+        private static readonly List<EnemyView> ZeroExceptions = new List<EnemyView>();
+
         [SerializeField] 
         private List<SpawnPositionRangeData> spawnPositionRanges;
 
@@ -48,10 +50,27 @@ namespace IdleRPG.Scripts.Runtime.Spawners
             _spawnIterator.OnIterate -= Spawn;
         }
         
-        //todo: change to check for distance from target
         public IHittable GetTarget()
         {
-            return _activatedEnemies.Last();
+            return GetClosestToPosition(player.Target.position);
+        }
+        
+        public IHittable GetClosestToPosition(Vector3 position, List<EnemyView> exceptions = null)
+        {
+            exceptions = exceptions ?? ZeroExceptions;
+            EnemyView result = null;
+            var minDistance = float.MaxValue;
+            foreach (var enemy in _activatedEnemies.Except(exceptions))
+            {
+                var currentDistance = Vector3.Distance(position, enemy.Target.position);
+                if (Vector3.Distance(position, enemy.Target.position) < minDistance)
+                {
+                    minDistance = currentDistance;
+                    result = enemy;
+                }
+            }
+
+            return result;
         }
 
         private void Spawn(float interval)
