@@ -1,6 +1,13 @@
 using System;
+using System.Collections.Generic;
+using IdleRPG.Scripts.Data;
+using IdleRPG.Scripts.Runtime.Controllers;
 using IdleRPG.Scripts.Runtime.Interfaces;
+using IdleRPG.Scripts.Runtime.Managers;
+using IdleRPG.Scripts.Runtime.Models;
+using IdleRPG.Scripts.Runtime.Spawners;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace IdleRPG.Scripts.Runtime.Views
 {
@@ -8,15 +15,58 @@ namespace IdleRPG.Scripts.Runtime.Views
     {
         public event Action<float> OnHitReceived;
         public event Action OnHealthReset;
+        
+        [SerializeField] 
+        private Slider healthBar;
+
+        [SerializeField] 
+        private EnemySpawner enemySpawner;
+
+        [SerializeField] 
+        private PlayerDataBundle playerDataBundle;
+
+        private PlayerAttackController _playerAttackController;
+        private HealthController _healthController;
+
+        private CharacterParametersModel _parametersModel;
+
+        private IIterator _damageIterator;
+
+        private List<IDisposable> _disposables;
+        
+        
         public Transform Target => transform;
-        public void ReceiveHit(float hitPower)
+
+        private void Start()
         {
-            Debug.Log("hit");
+            _parametersModel = new CharacterParametersModel(playerDataBundle.ParametersData);
+            
+            _damageIterator = new SingleCoroutineManager(this);
+            
+            _playerAttackController = new PlayerAttackController(_parametersModel, _damageIterator, enemySpawner, Target.position);
+            _healthController = new HealthController(healthBar, this, _parametersModel, new List<IDeathReceiver>());
+            
+            _disposables = new List<IDisposable>{_playerAttackController, _healthController};
         }
 
-        public IHittable GetTarget()
+        private void OnDestroy()
         {
-            return this;
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
+            }
+        }
+        
+        public void ReceiveHit(float hitPower)
+        {
+            OnHitReceived?.Invoke(hitPower);
+        }
+
+        public IHittable GetTarget() => this;
+
+        public void ResetState()
+        {
+            OnHealthReset?.Invoke();
         }
     }
 }
