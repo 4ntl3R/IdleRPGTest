@@ -32,6 +32,8 @@ namespace IdleRPG.Scripts.Runtime.Controllers
         private void SubscribeEvents()
         {
             _parametersModel.OnHealthChange += ResolveHealthChange;
+            _hittable.OnHitReceived += _parametersModel.HitReceive;
+            _hittable.OnHealthReset += _parametersModel.ResetParameters;
             foreach (var deathReceiver in _deathReceivers)
             {
                 _parametersModel.OnFullDamage += deathReceiver.ResolveDeath;
@@ -41,6 +43,8 @@ namespace IdleRPG.Scripts.Runtime.Controllers
         private void UnsubscribeEvents()
         {
             _parametersModel.OnHealthChange -= ResolveHealthChange;
+            _hittable.OnHitReceived -= _parametersModel.HitReceive;
+            _hittable.OnHealthReset -= _parametersModel.ResetParameters;
             foreach (var deathReceiver in _deathReceivers)
             {
                 _parametersModel.OnFullDamage -= deathReceiver.ResolveDeath;
