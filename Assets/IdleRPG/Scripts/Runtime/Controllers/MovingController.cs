@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace IdleRPG.Scripts.Runtime.Controllers
 {
-    public class MovingController: IDisposable
+    public class MovingController: IDisposable, IDeathReceiver
     {
         private readonly MovingModel _movingModel;
         private readonly IMovable _movable;
@@ -23,6 +23,11 @@ namespace IdleRPG.Scripts.Runtime.Controllers
         public void Dispose()
         {
             UnsubscribeEvents();
+        }
+        
+        public void ResolveDeath()
+        {
+            _iterator.StopIterating();
         }
 
         private void SubscribeEvents()
