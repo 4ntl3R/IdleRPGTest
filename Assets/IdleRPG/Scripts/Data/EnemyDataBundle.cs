@@ -1,3 +1,4 @@
+using IdleRPG.Scripts.Data.Enums;
 using UnityEngine;
 
 namespace IdleRPG.Scripts.Data
@@ -8,6 +9,11 @@ namespace IdleRPG.Scripts.Data
         [SerializeField] 
         private GameObject enemyPrefab;
 
+        [SerializeField]
+        private EnemyType enemyType;
+
         public GameObject EnemyPrefab => enemyPrefab;
+
+        public EnemyType EnemyType => enemyType;
     }
 }
