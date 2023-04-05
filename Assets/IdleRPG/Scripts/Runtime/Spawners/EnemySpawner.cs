@@ -13,9 +13,9 @@ using Random = UnityEngine.Random;
 namespace IdleRPG.Scripts.Runtime.Spawners
 {
     //todo: split enemy spawner to pooling handler and spawner
-    public class EnemySpawner : MonoBehaviour, ITargetProvider
+    public class EnemySpawner : MonoBehaviour, IMultipleTargetProvider
     {
-        private static readonly List<EnemyView> ZeroExceptions = new List<EnemyView>();
+        private static readonly List<IHittable> ZeroExceptions = new List<IHittable>();
 
         [SerializeField] 
         private List<SpawnPositionRangeData> spawnPositionRanges;
@@ -56,15 +56,15 @@ namespace IdleRPG.Scripts.Runtime.Spawners
             return GetClosestToPosition(player.Target.position);
         }
         
-        public IHittable GetClosestToPosition(Vector3 position, List<EnemyView> exceptions = null)
+        public IHittable GetClosestToPosition(Vector3 position, float rangeLimit = float.MaxValue, List<IHittable> exceptions = null)
         {
             exceptions = exceptions ?? ZeroExceptions;
-            EnemyView result = null;
-            var minDistance = float.MaxValue;
+            IHittable result = null;
+            var minDistance = rangeLimit;
             foreach (var enemy in _activatedEnemies.Except(exceptions))
             {
                 var currentDistance = Vector3.Distance(position, enemy.Target.position);
-                if (Vector3.Distance(position, enemy.Target.position) < minDistance)
+                if (Vector3.Distance(position, enemy.Target.position) <= minDistance)
                 {
                     minDistance = currentDistance;
                     result = enemy;
