@@ -19,5 +19,5 @@ MonoBehaviour:
     _spawnProbabilityWeight: 0.05
   defaultSpawnDelay: 4
   minimalSpawnDelay: 2
-  spawnDelayDecrease: 0.33
-  loopLength: 20
+  spawnDelayDecrease: 0.25
+  loopLength: 15
