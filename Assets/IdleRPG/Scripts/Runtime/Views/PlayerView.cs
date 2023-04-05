@@ -25,6 +25,9 @@ namespace IdleRPG.Scripts.Runtime.Views
         [SerializeField] 
         private PlayerDataBundle playerDataBundle;
 
+        [SerializeField] 
+        private LevelManager levelManager;
+
         private PlayerAttackController _playerAttackController;
         private HealthController _healthController;
 
@@ -37,16 +40,10 @@ namespace IdleRPG.Scripts.Runtime.Views
         
         public Transform Target => transform;
 
-        private void Start()
+        private void Awake()
         {
-            _parametersModel = new CharacterParametersModel(playerDataBundle.ParametersData);
-            
-            _damageIterator = new SingleCoroutineManager(this);
-            
-            _playerAttackController = new PlayerAttackController(_parametersModel, _damageIterator, enemySpawner, Target.position);
-            _healthController = new HealthController(healthBar, this, _parametersModel, new List<IDeathReceiver>());
-            
-            _disposables = new List<IDisposable>{_playerAttackController, _healthController};
+            ManageDependencies();
+
         }
 
         private void OnDestroy()
@@ -67,6 +64,17 @@ namespace IdleRPG.Scripts.Runtime.Views
         public void ResetState()
         {
             OnHealthReset?.Invoke();
+        }
+        
+        private void ManageDependencies()
+        {
+            _parametersModel = new CharacterParametersModel(playerDataBundle.ParametersData);
+            _damageIterator = new SingleCoroutineManager(this);
+            _playerAttackController = new PlayerAttackController(_parametersModel, _damageIterator, 
+                enemySpawner, Target.position);
+            _healthController = new HealthController(healthBar, this, _parametersModel, 
+                new List<IDeathReceiver>{levelManager});
+            _disposables = new List<IDisposable>{_playerAttackController, _healthController};
         }
     }
 }
