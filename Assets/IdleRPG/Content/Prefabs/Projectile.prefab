@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualization: {fileID: 5448729622254986506}
-  speed: 10
-  targetReach: 0.05
+  speed: 5
+  targetReach: 0.25
 --- !u!1 &4097078368758698734
 GameObject:
   m_ObjectHideFlags: 0

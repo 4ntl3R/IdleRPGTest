@@ -29,10 +29,7 @@ namespace IdleRPG.Scripts.Runtime.Views
         private IIterator _movingIterator;
         private IHittable _currentTarget;
 
-        private void Awake()
-        {
-            ManageDependencies();
-        }
+        private bool _isInitiated = false;
 
         private void OnDestroy()
         {
@@ -53,6 +50,12 @@ namespace IdleRPG.Scripts.Runtime.Views
 
         public void Launch(Vector3 launchPosition, ITargetProvider target, float damage)
         {
+            if (!_isInitiated)
+            {
+                ManageDependencies();
+                _isInitiated = true;
+            }
+            
             _currentTarget = target.GetTarget();
             _damage = damage;
             OnResetPositions?.Invoke(launchPosition, _currentTarget.Target.position);
@@ -71,8 +74,9 @@ namespace IdleRPG.Scripts.Runtime.Views
         {
             _movingModel = new MovingModel(speed, targetReach);
             _movingIterator = new SingleCoroutineManager(this);
-            _movingController = new MovingController(_movingModel, this, _movingIterator);
+            
             _projectileController = new ProjectileController(_movingModel, this);
+            _movingController = new MovingController(_movingModel, this, _movingIterator);
         }
     }
 }
