@@ -10,14 +10,17 @@ namespace IdleRPG.Scripts.Runtime.Controllers
         private readonly CharacterParametersModel _parametersModel;
         private readonly IIterator _iterator;
         private readonly ITargetProvider _targetProvider;
+        private readonly ProjectileSpawner _projectileSpawner;
         private readonly Vector3 _position;
 
-        public PlayerAttackController(CharacterParametersModel parametersModel, 
-            IIterator iterator, ITargetProvider targetProvider, Vector3 position)
+        public PlayerAttackController(CharacterParametersModel parametersModel, Vector3 position,
+            IIterator iterator, ITargetProvider targetProvider, ProjectileSpawner projectileSpawner)
         {
             _parametersModel = parametersModel;
             _iterator = iterator;
             _targetProvider = targetProvider;
+            _position = position;
+            _projectileSpawner = projectileSpawner;
             
             _iterator.StartIterating(parametersModel.AttackSpeed);
             
@@ -51,7 +54,7 @@ namespace IdleRPG.Scripts.Runtime.Controllers
             var target = _targetProvider.GetTarget();
             if (!(target is null) && Vector3.Distance(target.Target.position, _position) < _parametersModel.AttackRange)
             {
-                target.ReceiveHit(_parametersModel.AttackDamage);
+                _projectileSpawner.Spawn(_position, _targetProvider, _parametersModel.AttackDamage);
             }
         }
     }

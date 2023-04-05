@@ -26,6 +26,9 @@ namespace IdleRPG.Scripts.Runtime.Views
         private PlayerDataBundle playerDataBundle;
 
         [SerializeField] 
+        private ProjectileSpawner projectileSpawner;
+
+        [SerializeField] 
         private LevelManager levelManager;
 
         private PlayerAttackController _playerAttackController;
@@ -70,8 +73,8 @@ namespace IdleRPG.Scripts.Runtime.Views
         {
             _parametersModel = new CharacterParametersModel(playerDataBundle.ParametersData);
             _damageIterator = new SingleCoroutineManager(this);
-            _playerAttackController = new PlayerAttackController(_parametersModel, _damageIterator, 
-                enemySpawner, Target.position);
+            _playerAttackController = new PlayerAttackController(_parametersModel, Target.position, _damageIterator, 
+                enemySpawner, projectileSpawner);
             _healthController = new HealthController(healthBar, this, _parametersModel, 
                 new List<IDeathReceiver>{levelManager});
             _disposables = new List<IDisposable>{_playerAttackController, _healthController};
