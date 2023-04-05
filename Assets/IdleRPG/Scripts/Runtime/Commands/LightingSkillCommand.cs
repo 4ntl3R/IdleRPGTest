@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using IdleRPG.Scripts.Data;
 using IdleRPG.Scripts.Runtime.Interfaces;
-using UnityEngine;
+using IdleRPG.Scripts.Runtime.Views;
 
 namespace IdleRPG.Scripts.Runtime.Commands
 {
@@ -13,38 +14,44 @@ namespace IdleRPG.Scripts.Runtime.Commands
         private IMultipleTargetProvider _provider;
         private ITargetProvider _startProvider;
         private SkillLightingParametersData _data;
+        private LightingView _lighting;
 
         public float CooldownTime => _data.Cooldown;
     
-        public LightingSkillCommand(IMultipleTargetProvider provider, ITargetProvider startProvider, SkillLightingParametersData data)
+        public LightingSkillCommand(IMultipleTargetProvider provider, ITargetProvider startProvider, 
+            SkillLightingParametersData data, LightingView lightingView)
         {
             _provider = provider;
             _startProvider = startProvider;
             _data = data;
+            _lighting = lightingView;
         }
     
         public void Execute()
         {
-            var exceptions = new List<IHittable>();
             var currentSource = _startProvider.GetTarget();
+            var stepPoints = new List<IHittable>{currentSource};
             
             int currentStep;
             for (currentStep = 0; currentStep < _data.StepsAmount; currentStep++)
             {
-                currentSource = _provider.GetClosestToPosition(currentSource.Target.position, _data.Range, exceptions);
+                currentSource = _provider.GetClosestToPosition(currentSource.Target.position, _data.Range, stepPoints);
                 if (currentSource is null)
                 {
                     break;
                 }
 
-                exceptions.Add(currentSource);
+                stepPoints.Add(currentSource);
                 currentSource.ReceiveHit(_data.DamageOnStep(currentStep));
             }
 
-            if (currentStep > 0)
+            if (currentStep <= 0)
             {
-                OnSuccess?.Invoke();
+                return;
             }
+            
+            OnSuccess?.Invoke();
+            _lighting.Show(stepPoints.Select(x => x.Target.position).ToArray());
         }
     }
 }

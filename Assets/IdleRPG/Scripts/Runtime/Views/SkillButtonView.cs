@@ -27,6 +27,9 @@ namespace IdleRPG.Scripts.Runtime.Views
 
         [SerializeField] 
         private EnemySpawner spawner;
+
+        [SerializeField] 
+        private LightingView lightingView;
         
         private Image _buttonImage;
 
@@ -92,7 +95,7 @@ namespace IdleRPG.Scripts.Runtime.Views
 
         private void ManageDependencies()
         {
-            _skillCommand = new LightingSkillCommand(spawner, player, dataBundle.LightingData);
+            _skillCommand = new LightingSkillCommand(spawner, player, dataBundle.LightingData, lightingView);
             _controller = new SkillController(this, _skillCommand);
         }
     }
