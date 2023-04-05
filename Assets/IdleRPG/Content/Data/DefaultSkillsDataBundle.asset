@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DefaultSkillsDataBundle
   m_EditorClassIdentifier: 
   lightingData:
-    cooldown: 0
-    range: 0
-    baseDamage: 0
-    stepDamageMultiplier: 0
-    stepsAmount: 0
+    cooldown: 6
+    range: 4
+    baseDamage: 10
+    stepDamageMultiplier: 0.85
+    stepsAmount: 3
