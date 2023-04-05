@@ -1,55 +1,55 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using IdleRPG.Scripts.Runtime.Interfaces;
 using IdleRPG.Scripts.Runtime.Views;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class ProjectileSpawner : MonoBehaviour
+namespace IdleRPG.Scripts.Runtime.Spawners
 {
-    [SerializeField] 
-    private GameObject projectilePrefab;
-
-    private IObjectPool<ProjectileView> _pool;
-
-    private void Awake()
+    public class ProjectileSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<ProjectileView>(Create, Activate, Deactivate, Destroy);
-    }
+        [SerializeField] 
+        private GameObject projectilePrefab;
 
-    public void Spawn(Vector3 senderPosition, ITargetProvider target, float damage)
-    {
-        _pool
-            .Get()
-            .Launch(senderPosition, target, damage);
-    }
+        private IObjectPool<ProjectileView> _pool;
 
-    private ProjectileView Create()
-    {
-        var instantiated = Instantiate(projectilePrefab, Vector3.zero, Quaternion.identity);
-        var projectileView = instantiated.GetComponent<ProjectileView>();
-        projectileView.OnHit += ReturnToPool;
-        return projectileView;
-    }
+        private void Awake()
+        {
+            _pool = new ObjectPool<ProjectileView>(Create, Activate, Deactivate, Destroy);
+        }
 
-    private void Activate(ProjectileView projectileView)
-    {
-        projectileView.gameObject.SetActive(true);
-    }
+        public void Spawn(Vector3 senderPosition, ITargetProvider target, float damage)
+        {
+            _pool
+                .Get()
+                .Launch(senderPosition, target, damage);
+        }
 
-    private void Deactivate(ProjectileView projectileView)
-    {
-        projectileView.gameObject.SetActive(false);
-    }
+        private ProjectileView Create()
+        {
+            var instantiated = Instantiate(projectilePrefab, Vector3.zero, Quaternion.identity);
+            var projectileView = instantiated.GetComponent<ProjectileView>();
+            projectileView.OnHit += ReturnToPool;
+            return projectileView;
+        }
 
-    private void Destroy(ProjectileView projectileView)
-    {
-        projectileView.OnHit -= ReturnToPool;
-    }
+        private void Activate(ProjectileView projectileView)
+        {
+            projectileView.gameObject.SetActive(true);
+        }
 
-    private void ReturnToPool(ProjectileView sender)
-    {
-        _pool.Release(sender);
+        private void Deactivate(ProjectileView projectileView)
+        {
+            projectileView.gameObject.SetActive(false);
+        }
+
+        private void Destroy(ProjectileView projectileView)
+        {
+            projectileView.OnHit -= ReturnToPool;
+        }
+
+        private void ReturnToPool(ProjectileView sender)
+        {
+            _pool.Release(sender);
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using IdleRPG.Scripts.Runtime.Interfaces;
 using IdleRPG.Scripts.Runtime.Models;
+using IdleRPG.Scripts.Runtime.Spawners;
 using UnityEngine;
 
 namespace IdleRPG.Scripts.Runtime.Controllers

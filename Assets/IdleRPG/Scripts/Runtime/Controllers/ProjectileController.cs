@@ -6,8 +6,8 @@ namespace IdleRPG.Scripts.Runtime.Controllers
 {
     public class ProjectileController : IDisposable
     {
-        private MovingModel _movingModel;
-        private ProjectileView _projectileView;
+        private readonly MovingModel _movingModel;
+        private readonly ProjectileView _projectileView;
 
         public ProjectileController(MovingModel movingModel, ProjectileView projectileView)
         {
