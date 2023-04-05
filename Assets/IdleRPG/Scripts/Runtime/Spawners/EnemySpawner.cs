@@ -48,6 +48,7 @@ namespace IdleRPG.Scripts.Runtime.Spawners
 
         private void OnDestroy()
         {
+            _spawnIterator.StopIterating();
             _spawnIterator.OnIterate -= Spawn;
         }
         
